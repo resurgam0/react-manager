@@ -1,9 +1,9 @@
 // 接口类型定义
 
-export interface Result<T = any> {
-  code: number
-  data: T
-  msg: string
+export interface Result<T=any>{
+	code: number
+	data: T
+	msg: string
 }
 export interface ResultData<T = any> {
   list: T[]
@@ -18,11 +18,11 @@ export interface PageParams {
   pageNum: number
   pageSize?: number
 }
-export namespace Login {
-  export interface params {
-    userName: string
-    userPwd: string
-  }
+export namespace Login{
+	export interface params{
+		userName: string
+		userPwd: string
+	}
 }
 // 用户管理
 export namespace User {

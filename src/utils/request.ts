@@ -23,6 +23,7 @@ instance.interceptors.request.use(
     if (token) {
       config.headers.Authorization = 'Bearer ' + token
     }
+		config.headers.icode = 'C6FD9638E9488E34'
     if (env.mock) {
       config.baseURL = env.mockApi
     } else {
