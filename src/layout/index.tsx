@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Layout, theme, Watermark } from 'antd'
 import NavHeader from '@/components/NavHeader'
-import NavFooter from '@/components/NavFooter'
 import Menu from '@/components/Menu'
 import styles from './index.module.less'
 import api from '@/api'
@@ -37,7 +36,6 @@ const App: React.FC = () => {
 						<div className={styles.wrapper}>
 							<Outlet></Outlet>
 						</div>
-						<NavFooter />
 					</div>
         </Layout>
       </Layout>

@@ -30,7 +30,7 @@ export default function LoginFc() {
     <div className={styles.login}>
       <div className={styles.loginWrapper}>
         <div className={styles.loginTitle}>系统登录</div>
-        <Form name='basic' initialValues={{ remember: true }} onFinish={onFinish} autoComplete='off'>
+        <Form name='basic' initialValues={{ remember: true, userName: 'JackMa', userPwd: '123456' }} onFinish={onFinish} autoComplete='off'>
           <Form.Item name='userName' rules={[{ required: true, message: 'Please input your username!' }]}>
             <Input />
           </Form.Item>
