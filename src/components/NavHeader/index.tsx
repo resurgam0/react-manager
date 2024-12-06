@@ -1,19 +1,16 @@
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
-import { Breadcrumb, Dropdown, Switch } from 'antd'
+import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons'
+import { Breadcrumb, Switch, Dropdown } from 'antd'
 import type { MenuProps } from 'antd'
 import styles from './index.module.less'
-import storage from '@/utils/storage'
 import { useStore } from '@/store'
+import storage from '@/utils/storage'
+import BreadCrumb from './BreadCrumb'
+import { useEffect } from 'react'
 const NavHeader = () => {
-  const { userInfo, collapsed, updateCollapsed } = useStore()
-  const breadList = [
-    {
-      title: '首页'
-    },
-    {
-      title: '控制台'
-    }
-  ]
+  const { userInfo, collapsed, isDark, updateCollapsed, updateTheme } = useStore()
+  useEffect(() => {
+    handleSwitch(isDark)
+  }, [])
   const items: MenuProps['items'] = [
     {
       key: 'email',
@@ -24,29 +21,53 @@ const NavHeader = () => {
       label: '退出'
     }
   ]
+
+  // 控制菜单图标关闭和展开
+  const toggleCollapsed = () => {
+    updateCollapsed()
+  }
+
   const onClick: MenuProps['onClick'] = ({ key }) => {
     if (key === 'logout') {
       storage.remove('token')
       location.href = '/login?callback=' + encodeURIComponent(location.href)
     }
   }
-  const toggleCollapsed = () => {
-    updateCollapsed()
+
+  const handleSwitch = (isDark: boolean) => {
+    if (isDark) {
+      document.documentElement.dataset.theme = 'dark'
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.dataset.theme = 'light'
+      document.documentElement.classList.remove('dark')
+    }
+    storage.set('isDark', isDark)
+    updateTheme(isDark)
   }
+
   return (
     <div className={styles.navHeader}>
       <div className={styles.left}>
-        <div onClick={toggleCollapsed}>{collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}</div>
-
-        <Breadcrumb items={breadList} style={{ marginLeft: 10 }} />
+        <div onClick={toggleCollapsed}>
+          {collapsed ? <MenuUnfoldOutlined rev={undefined} /> : <MenuFoldOutlined rev={undefined} />}
+        </div>
+        <BreadCrumb />
       </div>
       <div className='right'>
-        <Switch checkedChildren='暗黑' unCheckedChildren='默认' style={{ marginRight: 10 }} />
-        <Dropdown menu={{ items, onClick }}>
+        <Switch
+          checked={isDark}
+          checkedChildren='暗黑'
+          unCheckedChildren='默认'
+          style={{ marginRight: 10 }}
+          onChange={handleSwitch}
+        />
+        <Dropdown menu={{ items, onClick }} trigger={['click']}>
           <span className={styles.nickName}>{userInfo.userName}</span>
         </Dropdown>
       </div>
     </div>
   )
 }
+
 export default NavHeader
