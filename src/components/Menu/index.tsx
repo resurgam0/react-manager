@@ -8,10 +8,10 @@ import type { MenuProps, MenuTheme } from 'antd/es/menu'
 import { useEffect, useState } from 'react'
 import { Menu as IMenu } from '@/types/api'
 import * as Icons from '@ant-design/icons'
-export default function SideMenu() {
+const SideMenu = () => {
   const [menuList, setMenuList] = useState<MenuItem[]>([])
   const navigate = useNavigate()
-  // const { isDark } = useStore(state => ({ isDark: state.isDark }))
+  const { collapsed, isDark } = useStore()
   const data: any = useRouteLoaderData('layout')
   const [selectedKeys, setSelectedKeys] = useState<string[]>([])
 
@@ -71,12 +71,13 @@ export default function SideMenu() {
     <div className={styles.navSide}>
       <div className={styles.logo} onClick={handleClickLogo}>
         <img src='/imgs/logo.png' className={styles.img} />
-        {/* {collapsed ? '' : <span>慕慕货运</span>} */}
+        {collapsed ? '' : <span>慕慕货运</span>}
       </div>
       <Menu
         mode='inline'
-				// theme={isDark ? 'light' : 'dark'}
+        theme={isDark ? 'light' : 'dark'}
         style={{
+          width: collapsed ? 80 : 'auto',
           height: 'calc(100vh - 50px)'
         }}
         selectedKeys={selectedKeys}
@@ -86,3 +87,5 @@ export default function SideMenu() {
     </div>
   )
 }
+
+export default SideMenu
